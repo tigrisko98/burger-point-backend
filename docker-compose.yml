@@ -68,7 +68,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: yii2-advanced-db
+      MYSQL_DATABASE: burger-point-db
       MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql

@@ -14,9 +14,12 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-app',
+            'parsers' => [
+                'application/json' => \yii\web\JsonParser::class
+            ]
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-app', 'httpOnly' => true],
         ],
@@ -40,6 +43,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'POST /user/register' => '/auth/register',
+                '/auth/verify-email' => '/auth/verify-email'
             ],
         ],
     ],
