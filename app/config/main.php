@@ -44,7 +44,10 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'POST /user/register' => '/auth/register',
-                '/auth/verify-email' => '/auth/verify-email'
+                'POST /user/login' => '/auth/login',
+                'DELETE /user/logout' => '/auth/logout',
+                '/auth/verify-email' => '/auth/verify-email',
+                '/user/test' => '/auth/test'
             ],
         ],
     ],

@@ -39,6 +39,11 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%users}}';
     }
 
+    public function fields()
+    {
+        return ['id', 'phone_number', 'email', 'access_token'];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -73,19 +78,19 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['access_token' => $token, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
-     * Finds user by username
+     * Finds user by phone_number
      *
-     * @param string $username
+     * @param string $phone_number
      * @return static|null
      */
-//    public static function findByUsername($username)
-//    {
-//        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
-//    }
+    public static function findByPhoneNumber($phone_number)
+    {
+        return static::findOne(['phone_number' => $phone_number, 'status' => self::STATUS_ACTIVE]);
+    }
 
     /**
      * Finds user by password reset token

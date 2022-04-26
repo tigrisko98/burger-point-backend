@@ -3,12 +3,17 @@
 namespace app\controllers;
 
 use app\models\VerifyEmailForm;
+use app\models\LoginForm;
 use Yii;
 use app\models\SignupForm;
 use yii\base\InvalidArgumentException;
+use yii\filters\AccessControl;
+use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use app\models\User;
 use yii\web\BadRequestHttpException;
+use yii\web\Request;
 use yii\web\Response;
 
 class AuthController extends ActiveController
@@ -20,16 +25,27 @@ class AuthController extends ActiveController
         return [];
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator']['only'] = ['test'];
+        $behaviors['authenticator']['authMethods'] = [
+            HttpBearerAuth::class
+        ];
+
+        return $behaviors;
+    }
+
     /**
      * Registers user
      *
      * @return yii\web\Response
      */
 
-    public function actionRegister(Response $response)
+    public function actionRegister(Request $request, Response $response)
     {
         $model = new SignupForm();
-        $formData = Yii::$app->request->post();
+        $formData = $request->post();
 
         if ($model->load($formData, '') && $model->validate() && $model->signup()) {
             $response->statusCode = 201;
@@ -47,10 +63,10 @@ class AuthController extends ActiveController
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
-    public function actionVerifyEmail($token)
+    public function actionVerifyEmail($token, Response $response)
     {
         try {
             $model = new VerifyEmailForm($token);
@@ -60,10 +76,56 @@ class AuthController extends ActiveController
 
         if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
             Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-            return $this->goHome();
+            $response->statusCode = 200;
+            $response->data = ['message' => 'Your email has been confirmed!', 'user' => $user];
+            return $response;
         }
 
-        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-        return $this->goHome();
+        $response->statusCode = 422;
+        $response->data = ['type' => 'error', 'message' => 'Sorry, we are unable to verify your account with provided token.'];
+        return $response;
     }
+
+    /**
+     * Logins user
+     *
+     * @return yii\web\Response
+     */
+    public function actionLogin(Request $request, Response $response)
+    {
+        $model = new LoginForm();
+        $formData = $request->post();
+
+        if ($model->load($formData, '') && $model->validate() && $model->login()) {
+            $response->statusCode = 200;
+            $response->data = ['message' => 'success', 'user' => $model->getUser()];
+
+        } else {
+            $response->statusCode = 422;
+            $response->data = ['errors' => [$model->getErrors()]];
+
+        }
+        return $response;
+    }
+
+    public function actionLogout(Response $response)
+    {
+        $user = User::findOne(Yii::$app->user->id);
+
+        if (!$user) {
+            $response->statusCode = 400;
+            $response->data = ['type' => 'error', 'message' => 'You are not logged in'];
+            return $response;
+        }
+
+        Yii::$app->user->logout();
+
+        $user->access_token = '';
+        $user->update();
+
+        $response->statusCode = 200;
+        $response->data = ['message' => 'success'];
+        return $response;
+    }
+
 }
