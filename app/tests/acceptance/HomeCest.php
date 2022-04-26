@@ -1,8 +1,8 @@
 <?php
 
-namespace frontend\tests\acceptance;
+namespace app\tests\acceptance;
 
-use frontend\tests\AcceptanceTester;
+use app\tests\AcceptanceTester;
 use yii\helpers\Url;
 
 class HomeCest

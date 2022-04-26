@@ -1,9 +1,9 @@
 <?php
 
-namespace frontend\tests\functional;
+namespace app\tests\functional;
 
 use common\fixtures\UserFixture;
-use frontend\tests\FunctionalTester;
+use app\tests\FunctionalTester;
 
 class ResendVerificationEmailCest
 {

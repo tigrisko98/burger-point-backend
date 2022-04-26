@@ -9,7 +9,7 @@
 Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
 developing complex Web applications with multiple tiers.
 
-The template includes three tiers: front end, back end, and console, each of which
+The template includes three tiers: admin, app, and console, each of which
 is a separate Yii application.
 
 The template is designed to work in a team development environment. It supports
@@ -28,7 +28,7 @@ DIRECTORY STRUCTURE
 common
     config/              contains shared configurations
     mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
+    models/              contains model classes used in both admin and app
     tests/               contains tests for common classes    
 console
     config/              contains console configurations
@@ -36,25 +36,25 @@ console
     migrations/          contains database migrations
     models/              contains console-specific model classes
     runtime/             contains files generated during runtime
-backend
+admin
     assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
+    config/              contains admin configurations
     controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
+    models/              contains admin-specific model classes
     runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
+    tests/               contains tests for admin application    
     views/               contains view files for the Web application
     web/                 contains the entry script and Web resources
-frontend
+app
     assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
+    config/              contains app configurations
     controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
+    models/              contains app-specific model classes
     runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
+    tests/               contains tests for app application
     views/               contains view files for the Web application
     web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
+    widgets/             contains app widgets
 vendor/                  contains dependent 3rd-party packages
 environments/            contains environment-based overrides
 ```
