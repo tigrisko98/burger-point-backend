@@ -17,7 +17,7 @@ return [
             'csrfParam' => '_csrf-admin',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'admin\models\Admin',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-admin', 'httpOnly' => true],
         ],

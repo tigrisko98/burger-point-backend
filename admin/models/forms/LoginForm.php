@@ -1,7 +1,8 @@
 <?php
 
-namespace app\models;
+namespace admin\models\forms;
 
+use admin\models\Admin;
 use Yii;
 use yii\base\Model;
 
@@ -10,11 +11,11 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $phone_number;
+    public $login;
     public $password;
     public $rememberMe = true;
 
-    private $_user;
+    private $_admin;
 
 
     /**
@@ -23,8 +24,8 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['phone_number', 'password'], 'required'],
+            // nickname and password are both required
+            [['login', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -42,42 +43,38 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect phone number or password.');
+            $admin = $this->getAdmin();
+            if (!$admin || !$admin->validatePassword($this->password)) {
+                $this->addError($attribute, 'Incorrect nickname or password.');
             }
         }
     }
 
     /**
-     * Logs in a user using the provided username and password.
+     * Logs in a user using the provided nickname and password.
      *
      * @return bool whether the user is logged in successfully
      */
     public function login()
     {
         if ($this->validate()) {
-            $user = $this->getUser();
-            $user->generateAccessToken();
-            $user->update();
-            return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getAdmin(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
 
         return false;
     }
 
     /**
-     * Finds user by [[phone_number]]
+     * Finds user by [[nickname]]
      *
-     * @return User|null
+     * @return Admin|null
      */
-    public function getUser()
+    protected function getAdmin()
     {
-        if ($this->_user === null) {
-
-            $this->_user = User::findByPhoneNumber($this->phone_number);
+        if ($this->_admin === null) {
+            $this->_admin = Admin::findByLogin($this->login);
         }
 
-        return $this->_user;
+        return $this->_admin;
     }
 }

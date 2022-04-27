@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\VerifyEmailForm;
-use app\models\LoginForm;
+use app\models\forms\VerifyEmailForm;
+use app\models\forms\LoginForm;
 use Yii;
-use app\models\SignupForm;
+use app\models\forms\SignupForm;
 use yii\base\InvalidArgumentException;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;

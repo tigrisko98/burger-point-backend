@@ -2,7 +2,7 @@
 
 namespace admin\controllers;
 
-use common\models\LoginForm;
+use admin\models\forms\LoginForm;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -79,6 +79,7 @@ class SiteController extends Controller
         $this->layout = 'blank';
 
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
