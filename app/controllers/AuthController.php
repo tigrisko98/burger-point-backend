@@ -87,7 +87,7 @@ class AuthController extends ActiveController
     }
 
     /**
-     * Logins user
+     * Logs in user
      *
      * @return yii\web\Response
      */
@@ -96,7 +96,7 @@ class AuthController extends ActiveController
         $model = new LoginForm();
         $formData = $request->post();
 
-        if ($model->load($formData, '') && $model->validate() && $model->login()) {
+        if ($model->load($formData, '') && $model->login()) {
             $response->statusCode = 200;
             $response->data = ['message' => 'success', 'user' => $model->getUser()];
 
@@ -108,6 +108,11 @@ class AuthController extends ActiveController
         return $response;
     }
 
+    /**
+     * Logs out user
+     *
+     * @return yii\web\Response
+     */
     public function actionLogout(Response $response)
     {
         $user = User::findOne(Yii::$app->user->id);
