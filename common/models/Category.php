@@ -42,13 +42,11 @@ class Category extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'image_url', 'created_at', 'updated_at'], 'required'],
-            [['created_at', 'updated_at'], 'integer'],
-            [['title', 'image', 'image_url'], 'string', 'max' => 255],
+            [['title'], 'required'],
+            [['title'], 'string', 'max' => 255],
             [['title'], 'unique'],
         ];
     }
-
 
     /**
      * Finds category by title
@@ -69,5 +67,11 @@ class Category extends ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
+    }
+
+    public function afterFind()
+    {
+        $this->created_at = date('d.m.Y H:i:s', $this->created_at);
+        $this->updated_at = date('d.m.Y H:i:s', $this->updated_at);
     }
 }
