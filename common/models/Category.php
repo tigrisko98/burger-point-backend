@@ -23,7 +23,7 @@ class Category extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%categries}}';
+        return '{{%categories}}';
     }
 
     /**
@@ -36,13 +36,17 @@ class Category extends ActiveRecord
         ];
     }
 
-
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public function rules()
     {
-        return static::findOne(['id' => $id]);
+        return [
+            [['title', 'image_url', 'created_at', 'updated_at'], 'required'],
+            [['created_at', 'updated_at'], 'integer'],
+            [['title', 'image', 'image_url'], 'string', 'max' => 255],
+            [['title'], 'unique'],
+        ];
     }
 
 
@@ -58,10 +62,12 @@ class Category extends ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Gets query for [[Product]].
+     *
+     * @return \yii\db\ActiveQuery
      */
-    public function getId()
+    public function getProducts()
     {
-        return $this->getPrimaryKey();
+        return $this->hasMany(Product::className(), ['category_id' => 'id']);
     }
 }
