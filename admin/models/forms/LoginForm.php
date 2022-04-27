@@ -24,11 +24,8 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // nickname and password are both required
             [['login', 'password'], 'required'],
-            // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
     }
@@ -51,9 +48,9 @@ class LoginForm extends Model
     }
 
     /**
-     * Logs in a user using the provided nickname and password.
+     * Logs in an admin using the provided login and password.
      *
-     * @return bool whether the user is logged in successfully
+     * @return bool whether the admin is logged in successfully
      */
     public function login()
     {
@@ -65,7 +62,7 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[nickname]]
+     * Finds admin by [[login]]
      *
      * @return Admin|null
      */
