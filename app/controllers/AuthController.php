@@ -7,8 +7,6 @@ use app\models\LoginForm;
 use Yii;
 use app\models\SignupForm;
 use yii\base\InvalidArgumentException;
-use yii\filters\AccessControl;
-use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use app\models\User;
@@ -98,7 +96,7 @@ class AuthController extends ActiveController
 
         if ($model->load($formData, '') && $model->login()) {
             $response->statusCode = 200;
-            $response->data = ['message' => 'success', 'user' => $model->getUser()];
+            $response->data = $model->getUser();
 
         } else {
             $response->statusCode = 422;
