@@ -8,6 +8,8 @@ $params = array_merge(
 
 return [
     'id' => 'app-admin',
+    'name' => 'Burger Point Admin',
+    'homeUrl' => '/categories',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'admin\controllers',
     'bootstrap' => ['log'],
