@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
@@ -16,7 +17,6 @@ use yii\db\ActiveRecord;
  * @property string $image_url
  * @property int $created_at
  * @property int $updated_at
- *
  * @property Category $category
  */
 class Product extends ActiveRecord
@@ -32,13 +32,23 @@ class Product extends ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            [['title', 'price', 'category_id', 'image_url', 'created_at', 'updated_at'], 'required'],
+            [['title', 'price', 'category_id'], 'required'],
             [['price'], 'number'],
-            [['category_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'image', 'image_url'], 'string', 'max' => 255],
+            [['category_id'], 'integer'],
+            [['title'], 'string', 'max' => 255],
             [['title'], 'unique'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
@@ -53,4 +63,5 @@ class Product extends ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
+
 }

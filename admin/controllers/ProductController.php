@@ -2,26 +2,30 @@
 
 namespace admin\controllers;
 
-use Yii;
+use admin\models\forms\UploadImageForm;
 use common\models\Category;
+use Yii;
+use common\models\Product;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use admin\models\forms\UploadImageForm;
 use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 
 /**
- * CategoryController implements the CRUD actions for Category model.
+ * ProductController implements the CRUD actions for Product model.
  */
-class CategoryController extends Controller
+class ProductController extends Controller
 {
-    private $categoriesImagesFolder;
+    private $categoriesTitles;
+    private $productsImagesFolder;
 
     public function __construct($id, $module, $config = [])
     {
-        $this->categoriesImagesFolder = Yii::getAlias('@categoriesImagesFolder');
+        $this->productsImagesFolder = Yii::getAlias('@productsImagesFolder');
+        $this->categoriesTitles = ArrayHelper::map(Category::find()->select(['id', 'title'])->asArray()->all(), 'id', 'title');
         parent::__construct($id, $module, $config);
     }
 
@@ -49,21 +53,21 @@ class CategoryController extends Controller
                         ],
                     ],
                 ],
-            ],
+            ]
         );
     }
 
     /**
-     * Lists all Category models.
+     * Lists all Product models.
      *
      * @return string
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Category::find(),
+            'query' => Product::find(),
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 10
             ],
             'sort' => [
                 'defaultOrder' => [
@@ -78,7 +82,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a single Category model.
+     * Displays a single Product model.
      * @param int $id
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -91,18 +95,18 @@ class CategoryController extends Controller
     }
 
     /**
-     * Creates a new Category model.
+     * Creates a new Product model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Category();
-        $modelUpload = new UploadImageForm($this->categoriesImagesFolder);
+        $model = new Product();
+        $modelUpload = new UploadImageForm($this->productsImagesFolder);
         $formData = $this->request->post();
 
         if ($this->request->isPost) {
-            if ($model->load($formData['Category'], '') && $model->save()) {
+            if ($model->load($formData['Product'], '') && $model->save()) {
                 if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
                     $modelUpload->upload($model);
                 }
@@ -114,12 +118,13 @@ class CategoryController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'modelUpload' => $modelUpload
+            'modelUpload' => $modelUpload,
+            'categoriesTitles' => $this->categoriesTitles
         ]);
     }
 
     /**
-     * Updates an existing Category model.
+     * Updates an existing Product model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id
      * @return string|\yii\web\Response
@@ -128,7 +133,7 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelUpload = new UploadImageForm($this->categoriesImagesFolder);
+        $modelUpload = new UploadImageForm($this->productsImagesFolder);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
@@ -139,12 +144,13 @@ class CategoryController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'modelUpload' => $modelUpload
+            'modelUpload' => $modelUpload,
+            'categoriesTitles' => $this->categoriesTitles
         ]);
     }
 
     /**
-     * Deletes an existing Category model.
+     * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id
      * @return \yii\web\Response
@@ -158,15 +164,15 @@ class CategoryController extends Controller
     }
 
     /**
-     * Finds the Category model based on its primary key value.
+     * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id
-     * @return Category the loaded model
+     * @return Product the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Category::findOne(['id' => $id])) !== null) {
+        if (($model = Product::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

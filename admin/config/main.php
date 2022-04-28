@@ -43,7 +43,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/categories' => '/category/index'
+                '/categories' => '/category/index',
+                '/products' => '/product/index'
             ],
         ],
     ],
