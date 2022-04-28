@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -18,6 +17,8 @@ use yii\db\ActiveRecord;
  */
 class Category extends ActiveRecord
 {
+    use \admin\components\timestamp\UnixTimestampToDateTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -69,9 +70,4 @@ class Category extends ActiveRecord
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
     }
 
-    public function afterFind()
-    {
-        $this->created_at = date('d.m.Y H:i:s', $this->created_at);
-        $this->updated_at = date('d.m.Y H:i:s', $this->updated_at);
-    }
 }
