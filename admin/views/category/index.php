@@ -23,12 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => 'yii\widgets\LinkPager',
+            'options' => ['class' => 'pagination'],
+            'linkOptions' => ['class' => 'page-link'],
+            'disabledPageCssClass' => 'page-link disabled',
+            'activePageCssClass' => 'page-item active'
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'title',
-            'image_url:url',
             'created_at',
             'updated_at',
             [
@@ -38,7 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
         ],
-    ]); ?>
+    ]);
+    ?>
 
 
 </div>

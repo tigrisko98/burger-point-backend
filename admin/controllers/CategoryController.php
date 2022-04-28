@@ -4,6 +4,7 @@ namespace admin\controllers;
 
 use common\models\Category;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -29,7 +30,18 @@ class CategoryController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
-            ]
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['*'],
+                    'rules' => [
+                        // allow authenticated users
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
+            ],
         );
     }
 
@@ -43,7 +55,7 @@ class CategoryController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Category::find(),
             'pagination' => [
-                'pageSize' => 20
+                'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [
