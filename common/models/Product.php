@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -21,6 +20,8 @@ use yii\db\ActiveRecord;
  */
 class Product extends ActiveRecord
 {
+    use \admin\components\timestamp\UnixTimestampToDateTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -50,6 +51,7 @@ class Product extends ActiveRecord
             [['category_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['title'], 'unique'],
+            [['title'], 'trim'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -63,5 +65,4 @@ class Product extends ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
-
 }

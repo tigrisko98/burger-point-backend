@@ -106,10 +106,11 @@ class ProductController extends Controller
         $formData = $this->request->post();
 
         if ($this->request->isPost) {
-            if ($model->load($formData['Product'], '') && $model->save()) {
+            if ($model->load($formData['Product'], '')) {
                 if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
                     $modelUpload->upload($model);
                 }
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -135,10 +136,11 @@ class ProductController extends Controller
         $model = $this->findModel($id);
         $modelUpload = new UploadImageForm($this->productsImagesFolder);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
             if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
                 $modelUpload->upload($model);
             }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

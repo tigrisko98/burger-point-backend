@@ -102,10 +102,11 @@ class CategoryController extends Controller
         $formData = $this->request->post();
 
         if ($this->request->isPost) {
-            if ($model->load($formData['Category'], '') && $model->save()) {
+            if ($model->load($formData['Category'], '')) {
                 if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
                     $modelUpload->upload($model);
                 }
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -130,10 +131,11 @@ class CategoryController extends Controller
         $model = $this->findModel($id);
         $modelUpload = new UploadImageForm($this->categoriesImagesFolder);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
             if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
                 $modelUpload->upload($model);
             }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

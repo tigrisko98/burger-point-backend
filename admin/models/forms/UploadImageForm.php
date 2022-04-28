@@ -42,7 +42,6 @@ class UploadImageForm extends Model
 
             $model->image = $this->image->baseName . '.' . $this->image->extension;
             $model->image_url = $this->getFileUrl($this->image->name, $this->bucketFolder);
-            $model->update();
 
             return true;
         }
