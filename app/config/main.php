@@ -47,7 +47,9 @@ return [
                 'POST /user/login' => '/auth/login',
                 'DELETE /user/logout' => '/auth/logout',
                 '/auth/verify-email' => '/auth/verify-email',
-                '/user/test' => '/auth/test'
+                '/user/test' => '/auth/test',
+
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['category', 'product']]
             ],
         ],
     ],
