@@ -11,7 +11,7 @@ use yii\web\UploadedFile;
 /**
  * UploadImageForm model
  *
- * @property UploadedFile $avatar
+ * @property UploadedFile $image
  */
 class UploadImageForm extends Model
 {
@@ -31,7 +31,7 @@ class UploadImageForm extends Model
     public function rules()
     {
         return [
-            ['image', 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            ['image', 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 

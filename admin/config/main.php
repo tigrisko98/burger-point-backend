@@ -44,7 +44,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/categories' => '/category/index',
-                '/products' => '/product/index'
+                '/products' => '/product/index',
+                '/settings' => '/settings/index'
             ],
         ],
     ],
