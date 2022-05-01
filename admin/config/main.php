@@ -44,8 +44,12 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/categories' => '/category/index',
+
                 '/products' => '/product/index',
-                '/settings' => '/settings/index'
+
+                '/settings' => '/settings/index',
+                '/settings/restaurant-images' => '/settings/restaurant-images',
+                '/settings/about-us-images' => '/settings/about-us-images',
             ],
         ],
     ],

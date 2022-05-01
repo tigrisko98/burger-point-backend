@@ -2,7 +2,7 @@
 
 namespace admin\controllers;
 
-use admin\models\forms\UploadImageForm;
+use admin\models\forms\UploadImagesForm;
 use common\models\Category;
 use Yii;
 use common\models\Product;
@@ -102,13 +102,13 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-        $modelUpload = new UploadImageForm($this->productsImagesFolder);
+        $modelUpload = new UploadImagesForm($this->productsImagesFolder);
         $formData = $this->request->post();
 
         if ($this->request->isPost) {
             if ($model->load($formData['Product'], '')) {
                 if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
-                    $modelUpload->upload($model);
+                    $model->image_url = $modelUpload->upload();
                 }
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -134,11 +134,11 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelUpload = new UploadImageForm($this->productsImagesFolder);
+        $modelUpload = new UploadImagesForm($this->productsImagesFolder);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
-                $modelUpload->upload($model);
+                $model->image_url = $modelUpload->upload();
             }
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);

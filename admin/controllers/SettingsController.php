@@ -2,14 +2,12 @@
 
 namespace admin\controllers;
 
-use admin\models\forms\UploadMultipleImagesForm;
+use admin\models\forms\UploadImagesForm;
 use Yii;
 use common\models\Settings;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -57,19 +55,9 @@ class SettingsController extends Controller
     public function actionIndex()
     {
         $model = Settings::find()->one();
-        $aboutUsImagesAttribute = 'aboutUsImages';
-        $restaurantImagesAttribute = 'restaurantImages';
-        $modelUploadAboutUsImages = new UploadMultipleImagesForm($this->aboutUsImagesFolder);
-        $modelUploadRestaurantImages = new UploadMultipleImagesForm($this->restaurantImagesFolder);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                if ($modelUploadAboutUsImages->$aboutUsImagesAttribute = UploadedFile::getInstances($modelUploadAboutUsImages, $aboutUsImagesAttribute)) {
-                    $modelUploadAboutUsImages->upload($model, 'about_us_images_links', $aboutUsImagesAttribute);
-                }
-                if ($modelUploadRestaurantImages->$restaurantImagesAttribute = UploadedFile::getInstances($modelUploadRestaurantImages, $restaurantImagesAttribute)) {
-                    $modelUploadRestaurantImages->upload($model, 'restaurant_images_links', $restaurantImagesAttribute);
-                }
                 $model->save();
                 return $this->refresh();
             }
@@ -77,10 +65,44 @@ class SettingsController extends Controller
 
         return $this->render('index', [
             'model' => $model,
-            'modelUploadAboutUsImages' => $modelUploadAboutUsImages,
-            'modelUploadRestaurantImages' => $modelUploadRestaurantImages,
+        ]);
+    }
+
+    public function actionRestaurantImages()
+    {
+        $model = Settings::find()->one();
+        $modelUpload = new UploadImagesForm($this->restaurantImagesFolder);
+
+        if ($this->request->isPost) {
+            $modelUpload->images = UploadedFile::getInstances($modelUpload, 'images');
+            $model->restaurant_images_links = serialize($modelUpload->upload());
+            $model->save();
+            return $this->refresh();
+        }
+
+        return $this->render('restaurantImages', [
+            'model' => $model,
+            'modelUpload' => $modelUpload,
             'restaurantImagesLinksArray' => unserialize($model->restaurant_images_links),
-            'aboutUsImagesLinksArray' => unserialize($model->about_us_images_links)
+        ]);
+    }
+
+    public function actionAboutUsImages()
+    {
+        $model = Settings::find()->one();
+        $modelUpload = new UploadImagesForm($this->aboutUsImagesFolder);
+
+        if ($this->request->isPost) {
+            $modelUpload->images = UploadedFile::getInstances($modelUpload, 'images');
+            $model->about_us_images_links = serialize($modelUpload->upload());
+            $model->save();
+            return $this->refresh();
+        }
+
+        return $this->render('aboutUsImages', [
+            'model' => $model,
+            'modelUpload' => $modelUpload,
+            'aboutUsImagesLinksArray' => unserialize($model->about_us_images_links),
         ]);
     }
 

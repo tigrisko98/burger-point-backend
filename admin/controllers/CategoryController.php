@@ -2,6 +2,7 @@
 
 namespace admin\controllers;
 
+use admin\models\forms\UploadImagesForm;
 use Yii;
 use common\models\Category;
 use yii\data\ActiveDataProvider;
@@ -9,7 +10,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use admin\models\forms\UploadImageForm;
 use yii\web\UploadedFile;
 
 /**
@@ -98,13 +98,13 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $model = new Category();
-        $modelUpload = new UploadImageForm($this->categoriesImagesFolder);
+        $modelUpload = new UploadImagesForm($this->categoriesImagesFolder);
         $formData = $this->request->post();
 
         if ($this->request->isPost) {
             if ($model->load($formData['Category'], '')) {
                 if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
-                    $modelUpload->upload($model);
+                    $model->image_url = $modelUpload->upload();
                 }
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -129,11 +129,11 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelUpload = new UploadImageForm($this->categoriesImagesFolder);
+        $modelUpload = new UploadImagesForm($this->categoriesImagesFolder);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
-                $modelUpload->upload($model);
+                $model->image_url = $modelUpload->upload();
             }
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);

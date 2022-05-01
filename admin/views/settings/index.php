@@ -4,9 +4,6 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Settings */
-/* @var $modelUploadAboutUsImages admin\models\forms\UploadMultipleImagesForm */
-/* @var $modelUploadRestaurantImages admin\models\forms\UploadMultipleImagesForm */
-/* @var array $aboutUsImagesLinksArray */
 
 $this->title = 'Settings';
 $this->params['breadcrumbs'][] = 'Settings';
@@ -15,12 +12,11 @@ $this->params['breadcrumbs'][] = 'Settings';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <a href="/settings/restaurant-images">Restaurant images</a>
+    <a href="/settings/about-us-images">About us images</a>
+
     <?= $this->render('_form', [
         'model' => $model,
-        'modelUploadAboutUsImages' => $modelUploadAboutUsImages,
-        'modelUploadRestaurantImages' => $modelUploadRestaurantImages,
-        'restaurantImagesLinksArray' => unserialize($model->restaurant_images_links),
-        'aboutUsImagesLinksArray' => unserialize($model->about_us_images_links)
     ]) ?>
 
 </div>
