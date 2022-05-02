@@ -3,6 +3,7 @@
 namespace admin\controllers;
 
 use admin\models\forms\UploadImagesForm;
+use common\models\Product;
 use Yii;
 use common\models\Category;
 use yii\data\ActiveDataProvider;
@@ -159,7 +160,9 @@ class CategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if ($this->findModel($id)->delete() !== true) {
+            Yii::$app->session->setFlash('error', 'Database error');
+        }
 
         return $this->redirect(['index']);
     }

@@ -2,8 +2,10 @@
 
 namespace common\models;
 
+use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\HttpException;
 
 /**
  * Category model
@@ -69,6 +71,22 @@ class Category extends ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
+    }
+
+    public function delete()
+    {
+        $transaction = Category::getDb()->beginTransaction();
+        try {
+            Product::deleteProductsByCategoryId($this->id);
+            parent::delete();
+
+            $transaction->commit();
+        } catch (\yii\db\Exception $exception) {
+            $transaction->rollBack();
+            return $exception->getMessage();
+        }
+
+        return true;
     }
 
 }

@@ -65,4 +65,9 @@ class Product extends ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
+
+    public static function deleteProductsByCategoryId($id)
+    {
+        return Product::deleteAll(['category_id' => $id]);
+    }
 }
