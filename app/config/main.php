@@ -49,7 +49,12 @@ return [
                 '/auth/verify-email' => '/auth/verify-email',
                 '/user/test' => '/auth/test',
 
-                ['class' => \yii\rest\UrlRule::class, 'controller' => ['category', 'product']]
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['category', 'product']],
+
+                'GET /settings' => '/settings/settings',
+                'GET /settings/about-us' => '/settings/about-us',
+                'GET /settings/contacts' => '/settings/contacts',
+
             ],
         ],
     ],
