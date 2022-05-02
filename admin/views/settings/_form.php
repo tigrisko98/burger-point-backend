@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(['id' => 'settings']); ?>
 
     <div class="container">
-        <h4 style="text-align: center">Contacts</h4>
+        <h5 style="text-align: center">Contacts</h5>
         <hr>
         <div class="row">
             <div class="col-md-6">
@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
 
         </div>
 
-        <h4 style="text-align: center">About us</h4>
+        <h5 style="text-align: center">About us</h5>
         <hr>
         <div class="row">
             <div class="col-md-12">
@@ -42,7 +42,7 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
 
-        <h4 style="text-align: center">Others</h4>
+        <h5 style="text-align: center">Others</h5>
         <hr>
         <div class="row">
             <div class="col-md-6">

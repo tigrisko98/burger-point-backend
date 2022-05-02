@@ -16,8 +16,10 @@ use yii\behaviors\TimestampBehavior;
  * @property string $instagram_link
  * @property string $facebook_link
  * @property string $work_schedule
+ * @property string $restaurant_images
  * @property string $restaurant_images_links
  * @property string|null $about_us_text
+ * @property string $about_us_images
  * @property string $about_us_images_links
  * @property string $restaurant_name
  * @property int $created_at
@@ -51,6 +53,7 @@ class Settings extends \yii\db\ActiveRecord
         return [
             [['address', 'phone_number', 'email', 'telegram_link', 'instagram_link', 'facebook_link', 'restaurant_name'], 'required'],
             [['address', 'phone_number', 'email', 'telegram_link', 'instagram_link', 'facebook_link', 'work_schedule', 'restaurant_name'], 'string', 'max' => 255],
+            [['about_us_text'], 'string', 'max' => 2000],
             [['telegram_link', 'instagram_link', 'facebook_link'], 'url'],
             [['email'], 'email'],
         ];

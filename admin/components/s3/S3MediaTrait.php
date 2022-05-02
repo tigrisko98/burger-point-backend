@@ -71,24 +71,24 @@ trait S3MediaTrait
      *
      * @return bool TRUE on success or if file doesn't exist.
      */
-    public function removeFile($attribute)
+    public function removeFile($attribute, $fileName)
     {
-        if ( empty( $this->{$attribute} ) ) {
+        if ( empty( $fileName ) ) {
             // No file to remove
             return true;
         }
 
-        $file = $this->getAttributePath( $attribute ) . $this->{$attribute};
+        $file = $this->getAttributePath( $attribute ) . $fileName;
         $result = $this->getS3Component()
             ->commands()
             ->delete( $file )
             ->execute();
 
         // Validate successful removal from S3
-        if ( $this->isSuccessResponseStatus( $result ) ) {
-            $this->{$attribute} = null;
-            return true;
-        }
+//        if ( $this->isSuccessResponseStatus( $result ) ) {
+//            $this->{$attribute} = null;
+//            return true;
+//        }
 
         return false;
     }

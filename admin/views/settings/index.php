@@ -12,8 +12,8 @@ $this->params['breadcrumbs'][] = 'Settings';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <a href="/settings/restaurant-images">Restaurant images</a>
-    <a href="/settings/about-us-images">About us images</a>
+    <a href="/settings/restaurant-images" class="btn btn-secondary">Restaurant images</a>
+    <a href="/settings/about-us-images" class="btn btn-secondary">About us images</a>
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -54,7 +54,7 @@ class SettingsController extends Controller
      */
     public function actionIndex()
     {
-        $model = Settings::find()->one();
+        $model = Settings::findOne(1);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -70,14 +70,19 @@ class SettingsController extends Controller
 
     public function actionRestaurantImages()
     {
-        $model = Settings::find()->one();
+        $model = Settings::findOne(1);
         $modelUpload = new UploadImagesForm($this->restaurantImagesFolder);
 
         if ($this->request->isPost) {
-            $modelUpload->images = UploadedFile::getInstances($modelUpload, 'images');
-            $model->restaurant_images_links = serialize($modelUpload->upload());
-            $model->save();
-            return $this->refresh();
+            if ($modelUpload->images = UploadedFile::getInstances($modelUpload, 'images')) {
+                $modelUpload->oldImages = (array) unserialize($model->restaurant_images);
+                $modelUpload->delete();
+                $imagesToUpload = $modelUpload->upload();
+                $model->restaurant_images = serialize($imagesToUpload['images']);
+                $model->restaurant_images_links = serialize($imagesToUpload['images_urls']);
+                $model->save();
+                return $this->refresh();
+            }
         }
 
         return $this->render('restaurantImages', [
@@ -89,14 +94,19 @@ class SettingsController extends Controller
 
     public function actionAboutUsImages()
     {
-        $model = Settings::find()->one();
+        $model = Settings::findOne(1);
         $modelUpload = new UploadImagesForm($this->aboutUsImagesFolder);
 
         if ($this->request->isPost) {
-            $modelUpload->images = UploadedFile::getInstances($modelUpload, 'images');
-            $model->about_us_images_links = serialize($modelUpload->upload());
-            $model->save();
-            return $this->refresh();
+            if ($modelUpload->images = UploadedFile::getInstances($modelUpload, 'images')) {
+                $modelUpload->oldImages = (array) unserialize($model->about_us_images);
+                $modelUpload->delete();
+                $imagesToUpload = $modelUpload->upload();
+                $model->about_us_images = serialize($imagesToUpload['images']);
+                $model->about_us_images_links = serialize($imagesToUpload['images_urls']);
+                $model->save();
+                return $this->refresh();
+            }
         }
 
         return $this->render('aboutUsImages', [
@@ -104,21 +114,5 @@ class SettingsController extends Controller
             'modelUpload' => $modelUpload,
             'aboutUsImagesLinksArray' => unserialize($model->about_us_images_links),
         ]);
-    }
-
-    /**
-     * Finds the Settings model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Settings the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Settings::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

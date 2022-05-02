@@ -104,7 +104,8 @@ class CategoryController extends Controller
         if ($this->request->isPost) {
             if ($model->load($formData['Category'], '')) {
                 if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
-                    $model->image_url = $modelUpload->upload();
+                    $model->image = $modelUpload['image'];
+                    $model->image_url = $modelUpload->upload()['image_url'];
                 }
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -133,7 +134,11 @@ class CategoryController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             if ($modelUpload->image = UploadedFile::getInstance($modelUpload, 'image')) {
-                $model->image_url = $modelUpload->upload();
+                $modelUpload->oldImage = $model->image;
+                $modelUpload->delete();
+                $imageToUpload = $modelUpload->upload();
+                $model->image = $imageToUpload['image'];
+                $model->image_url = $imageToUpload['image_url'];
             }
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);

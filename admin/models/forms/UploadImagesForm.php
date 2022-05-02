@@ -16,7 +16,9 @@ class UploadImagesForm extends Model
     use \admin\components\s3\S3MediaTrait;
 
     public $image;
+    public $oldImage;
     public $images;
+    public $oldImages;
     public $s3;
     public $bucketFolder;
 
@@ -39,18 +41,33 @@ class UploadImagesForm extends Model
     {
         if ($this->validate()) {
             if (!is_null($this->images)) {
-                $imagesUrls = [];
+                $images = [];
 
                 foreach ($this->images as $image) {
                     $this->saveUploadedFile($image, '', $this->bucketFolder . $image->baseName);
-                    $imagesUrls[] = $this->getFileUrl($image->name, $this->bucketFolder);
+                    $images['images'][] = $image->name;
+                    $images['images_urls'][] = $this->getFileUrl($image->name, $this->bucketFolder);
                 }
-                return $imagesUrls;
+                return $images;
             } else {
                 $this->saveUploadedFile($this->image, '', $this->bucketFolder . $this->image->baseName);
-                return $this->getFileUrl($this->image->name, $this->bucketFolder);
+                return [
+                    'image' => $this->image->baseName,
+                    'image_url' => $this->getFileUrl($this->image->name, $this->bucketFolder)
+                ];
             }
         }
         return false;
+    }
+
+    public function delete()
+    {
+        if (!is_null($this->images)) {
+            foreach ($this->oldImages as $image){
+                $this->removeFile('', $this->bucketFolder . $image);
+            }
+            return true;
+        }
+        return $this->removeFile('', $this->bucketFolder . $this->oldImage);
     }
 }
