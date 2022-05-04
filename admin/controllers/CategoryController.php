@@ -160,8 +160,16 @@ class CategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        if ($this->findModel($id)->delete() !== true) {
+        $model = $this->findModel($id);
+        
+        if ($model->delete() !== true) {
             Yii::$app->session->setFlash('error', 'Database error');
+        } else {
+            if (!empty($model->image)) {
+                $modelUpload = new UploadImagesForm($this->categoriesImagesFolder);
+                $modelUpload->oldImage = $model->image;
+                $modelUpload->delete();
+            }
         }
 
         return $this->redirect(['index']);

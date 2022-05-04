@@ -165,7 +165,15 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        if ($model->delete()) {
+            if (!empty($model->image)) {
+                $modelUpload = new UploadImagesForm($this->productsImagesFolder);
+                $modelUpload->oldImage = $model->image;
+                $modelUpload->delete();
+            }
+        }
 
         return $this->redirect(['index']);
     }

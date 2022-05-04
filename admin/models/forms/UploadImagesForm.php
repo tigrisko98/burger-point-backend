@@ -62,7 +62,7 @@ class UploadImagesForm extends Model
 
     public function delete()
     {
-        if (!is_null($this->images)) {
+        if (!is_null($this->oldImages)) {
             foreach ($this->oldImages as $image){
                 $this->removeFile('', $this->bucketFolder . $image);
             }

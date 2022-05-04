@@ -19,7 +19,7 @@ class m220427_141312_create_products_table extends Migration
             'title' => $this->string()->notNull()->unique(),
             'price' => $this->float()->notNull(),
             'category_id' => $this->integer()->notNull(),
-            'image' => $this->string()->notNull()->defaultValue('category_default.png'),
+            'image' => $this->string()->notNull()->defaultValue(''),
             'image_url' => $this->string()->notNull()->defaultValue(''),
 
             'created_at' => $this->integer()->notNull(),

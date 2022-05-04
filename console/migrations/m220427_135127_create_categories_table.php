@@ -17,7 +17,7 @@ class m220427_135127_create_categories_table extends Migration
         $this->createTable('{{%categories}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull()->unique(),
-            'image' => $this->string()->notNull()->defaultValue('category_default.png'),
+            'image' => $this->string()->notNull()->defaultValue(''),
             'image_url' => $this->string()->notNull()->defaultValue(''),
 
             'created_at' => $this->integer()->notNull(),

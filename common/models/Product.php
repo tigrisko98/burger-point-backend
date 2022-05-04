@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use admin\controllers\ProductController;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
