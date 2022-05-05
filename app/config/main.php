@@ -55,6 +55,8 @@ return [
                 'GET /settings/about-us' => '/settings/about-us',
                 'GET /settings/contacts' => '/settings/contacts',
 
+                'POST /reserve' => '/reservation/create'
+
             ],
         ],
     ],
