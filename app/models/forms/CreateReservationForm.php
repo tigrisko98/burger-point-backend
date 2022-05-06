@@ -23,29 +23,9 @@ class CreateReservationForm extends Model
         ];
     }
 
-    public function enabledTables()
-    {
-        $reservations = Reservation::find()->select(['table_id', 'reserved_from', 'reserved_to'])->asArray()->all();
-
-        $enabledTablesIds = [];
-        foreach ($reservations as $reservation) {
-            if (in_array($reservation['table_id'], $enabledTablesIds)) {
-                continue;
-            }
-            if ($this->reserved_from < $reservation['reserved_from'] && $this->reserved_to < $reservation['reserved_to']
-                && $this->visitors_count <= Table::find()->select('seats')->where(['id' => $this->table_id])->column()) {
-                $enabledTablesIds[] = $reservation['table_id'];
-            }
-        }
-
-        return $enabledTablesIds;
-    }
-
     public function validateTable()
     {
-        return !in_array($this->table_id, $this->enabledTables());
-
-
+        return !in_array($this->table_id, Table::enabledTables($this->reserved_from, $this->reserved_to, $this->visitors_count));
     }
 
     public function reserve()

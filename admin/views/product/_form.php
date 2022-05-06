@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
-/* @var $modelUpload \admin\models\forms\UploadImageForm */
+/* @var $modelUpload \admin\models\forms\UploadImagesForm */
 /* @var $form yii\widgets\ActiveForm */
 /* @var array $categoriesTitles */
 ?>

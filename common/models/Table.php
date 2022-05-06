@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use app\resources\Reservation;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -16,7 +17,6 @@ use yii\db\ActiveRecord;
  * @property int $updated_at
  *
  */
-
 class Table extends ActiveRecord
 {
     /**
@@ -62,5 +62,32 @@ class Table extends ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public static function enabledTables($reservedFrom, $reservedTo, $visitorsCount): array
+    {
+        $tableIds = static::find()->select('id')->asArray()->all();
+
+        foreach ($tableIds as $id) {
+            $reservations = Reservation::find()
+                ->select(['table_id', 'reserved_from', 'reserved_to'])->where(['table_id' => $id])->asArray()->all();
+            $enabledTablesIds = [];
+
+            if (!empty($reservations)) {
+                foreach ($reservations as $reservation) {
+                    if (in_array($reservation['table_id'], $enabledTablesIds)) {
+                        continue;
+                    }
+                    if ($reservedFrom < $reservation['reserved_from'] && $reservedTo < $reservation['reserved_to']
+                        && $visitorsCount <= Table::find()->select('seats')->where(['id' => $reservation['table_id']])->column()) {
+                        $enabledTablesIds[] = $reservation['table_id'];
+                    }
+                }
+            } else {
+                $enabledTablesIds[] = $id;
+            }
+        }
+
+        return $enabledTablesIds;
     }
 }
