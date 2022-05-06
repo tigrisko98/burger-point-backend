@@ -19,6 +19,8 @@ use yii\db\ActiveRecord;
  */
 class Table extends ActiveRecord
 {
+    use \admin\components\timestamp\UnixTimestampToDateTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -44,8 +46,8 @@ class Table extends ActiveRecord
     {
         return [
             [['number', 'seats'], 'required'],
-            [['number', 'seats', 'created_at', 'updated_at'], 'integer'],
-            [['seats'], 'min' => 1, 'max' => 6],
+            [['number'], 'integer'],
+            [['seats'], 'integer', 'min' => 1, 'max' => 6],
             [['number'], 'unique'],
         ];
     }

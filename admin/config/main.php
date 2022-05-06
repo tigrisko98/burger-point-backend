@@ -47,6 +47,8 @@ return [
 
                 '/products' => '/product/index',
 
+                '/tables' => '/table/index',
+
                 '/settings' => '/settings/index',
                 '/settings/restaurant-images' => '/settings/restaurant-images',
                 '/settings/about-us-images' => '/settings/about-us-images',
