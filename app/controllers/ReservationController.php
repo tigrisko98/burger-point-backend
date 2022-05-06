@@ -38,7 +38,7 @@ class ReservationController extends ActiveController
         $model = new EnabledTablesForm();
         $response = $this->response;
 
-        if ($model->load($this->request->post(), '')){
+        if ($model->load($this->request->get(), '') && $model->validate()){
             return $response->data = $model->enabledTables();
         }
         return $response->data = ['type' => 'validation', 'message' => $model->getErrors()];

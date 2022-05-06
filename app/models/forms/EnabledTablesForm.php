@@ -7,21 +7,21 @@ use yii\base\Model;
 
 class EnabledTablesForm extends Model
 {
-    public $reservedFrom;
-    public $reservedTo;
-    public $visitorsCount;
+    public $reserved_from;
+    public $reserved_to;
+    public $visitors_count;
 
     public function rules()
     {
         return [
-            [['reservedFrom', 'reservedTo', 'visitorsCount'], 'required'],
-            [['reservedFrom', 'reservedTo'], 'datetime'],
-            [['visitorsCount'], 'integer']
+            [['reserved_from', 'reserved_to', 'visitors_count'], 'required'],
+            [['reserved_from', 'reserved_to'], 'datetime'],
+            [['visitors_count'], 'integer']
         ];
     }
 
     public function enabledTables(): array
     {
-        return Table::enabledTables($this->reservedFrom, $this->reservedTo, $this->visitorsCount);
+        return Table::enabledTables($this->reserved_from, $this->reserved_to, $this->visitors_count);
     }
 }

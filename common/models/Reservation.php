@@ -27,7 +27,7 @@ class Reservation extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{$reservations}}';
+        return '{{%reservations}}';
     }
 
     /**

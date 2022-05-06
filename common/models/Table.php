@@ -68,20 +68,19 @@ class Table extends ActiveRecord
 
     public static function enabledTables($reservedFrom, $reservedTo, $visitorsCount): array
     {
-        $tableIds = static::find()->select('id')->asArray()->all();
+        $tableIds = static::find()->select('id')->where(['>=', 'seats', $visitorsCount])->column();
+        $enabledTablesIds = [];
 
         foreach ($tableIds as $id) {
             $reservations = Reservation::find()
                 ->select(['table_id', 'reserved_from', 'reserved_to'])->where(['table_id' => $id])->asArray()->all();
-            $enabledTablesIds = [];
 
             if (!empty($reservations)) {
                 foreach ($reservations as $reservation) {
                     if (in_array($reservation['table_id'], $enabledTablesIds)) {
                         continue;
                     }
-                    if ($reservedFrom < $reservation['reserved_from'] && $reservedTo < $reservation['reserved_to']
-                        && $visitorsCount <= Table::find()->select('seats')->where(['id' => $reservation['table_id']])->column()) {
+                    if ($reservedFrom < $reservation['reserved_from'] && $reservedTo < $reservation['reserved_to']) {
                         $enabledTablesIds[] = $reservation['table_id'];
                     }
                 }
