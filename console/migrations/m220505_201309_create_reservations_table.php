@@ -20,7 +20,7 @@ class m220505_201309_create_reservations_table extends Migration
             'reserved_from' => $this->dateTime()->notNull(),
             'reserved_to' => $this->dateTime()->notNull(),
             'reserver_name' => $this->string()->notNull(),
-            'reserver_phone_number' => $this->integer()->notNull(),
+            'reserver_phone_number' => $this->string()->notNull(),
             'reserver_email' => $this->string(),
             'visitors_count' => $this->integer()->notNull(),
 

@@ -15,7 +15,7 @@ class EnabledTablesForm extends Model
     {
         return [
             [['reserved_from', 'reserved_to', 'visitors_count'], 'required'],
-            [['reserved_from', 'reserved_to'], 'datetime'],
+            [['reserved_from', 'reserved_to'], 'string'],
             [['visitors_count'], 'integer']
         ];
     }

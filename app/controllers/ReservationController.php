@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\forms\CreateReservationForm;
 use app\models\forms\EnabledTablesForm;
 use app\resources\Reservation;
+use common\models\Table;
 use yii\rest\ActiveController;
 
 class ReservationController extends ActiveController
@@ -24,12 +25,12 @@ class ReservationController extends ActiveController
         $formData = $this->request->post();
 
         if ($this->request->isPost) {
+            $model->load($formData, '');
             if ($model->load($formData, '') && $reservation = $model->reserve()) {
                 return $this->response->data = $reservation;
             }
         }
 
-        $this->response->statusCode = 422;
         return $this->response->data = ['type' => 'error', 'message' => 'You cannot reserve this table'];
     }
 
