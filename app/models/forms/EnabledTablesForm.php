@@ -3,10 +3,13 @@
 namespace app\models\forms;
 
 use common\models\Table;
+use DateTime;
 use yii\base\Model;
 
 class EnabledTablesForm extends Model
 {
+    use \app\components\ValidateDateTrait;
+
     public $reserved_from;
     public $reserved_to;
     public $visitors_count;
@@ -15,7 +18,8 @@ class EnabledTablesForm extends Model
     {
         return [
             [['reserved_from', 'reserved_to', 'visitors_count'], 'required'],
-            [['reserved_from', 'reserved_to'], 'string'],
+            ['reserved_from', 'compare', 'compareAttribute' => 'reserved_to', 'operator' => '<', 'enableClientValidation' => false],
+            [['reserved_from', 'reserved_to'], 'validateDate'],
             [['visitors_count'], 'integer']
         ];
     }

@@ -8,6 +8,8 @@ use yii\base\Model;
 
 class CreateReservationForm extends Model
 {
+    use \app\components\ValidateDateTrait;
+
     public $table_id;
     public $reserved_from;
     public $reserved_to;
@@ -20,6 +22,8 @@ class CreateReservationForm extends Model
     {
         return [
             [['table_id', 'reserved_from', 'reserved_to', 'reserver_name', 'reserver_phone_number', 'visitors_count'], 'required'],
+            ['reserved_from', 'compare', 'compareAttribute' => 'reserved_to', 'operator' => '<', 'enableClientValidation' => false],
+            [['reserved_from', 'reserved_to'], 'validateDate'],
             [['reserver_email'], 'email'],
             ['table_id', 'validateTable']
         ];

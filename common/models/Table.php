@@ -80,7 +80,9 @@ class Table extends ActiveRecord
                     if (in_array($reservation['table_id'], $enabledTablesIds)) {
                         continue;
                     }
-                    if ($reservedFrom < $reservation['reserved_from'] && $reservedTo < $reservation['reserved_to']) {
+                    if ($reservedFrom != $reservation['reserved_from'] &&
+                        ($reservedFrom < $reservation['reserved_from'] || $reservedFrom >= $reservation['reserved_to'])
+                        && ($reservedTo <= $reservation['reserved_from'] || $reservedTo > $reservation['reserved_to'])) {
                         $enabledTablesIds[] = $reservation['table_id'];
                     }
                 }
