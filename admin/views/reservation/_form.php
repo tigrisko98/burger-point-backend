@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Reservation */
@@ -15,9 +16,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'table_id')->dropDownList($tableIds) ?>
 
-    <?= $form->field($model, 'reserved_from')->textInput() ?>
+    <?= $form->field($model, 'reserved_from')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Enter date'],
+        'convertFormat' => true,
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-MM-d H:i:00',
+            'startDate' => '01-Mar-2014 12:00 AM',
+            'todayHighlight' => true
+        ]
+    ]); ?>
 
-    <?= $form->field($model, 'reserved_to')->textInput() ?>
+    <?= $form->field($model, 'reserved_to')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Enter date'],
+        'convertFormat' => true,
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-MM-d H:i:00',
+            'startDate' => '01-Mar-2014 12:00 AM',
+            'todayHighlight' => true
+        ]
+    ]); ?>
 
     <?= $form->field($model, 'reserver_name')->textInput(['maxlength' => true]) ?>
 

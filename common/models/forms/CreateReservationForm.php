@@ -62,6 +62,6 @@ class CreateReservationForm extends Model
         $reservation->visitors_count = $this->visitors_count;
         $reservation->save();
 
-        return $reservation;
+        return $reservation->id;
     }
 }
