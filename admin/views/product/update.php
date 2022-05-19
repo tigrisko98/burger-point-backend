@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
-/* @var $modelUpload \admin\models\forms\UploadImageForm */
+/* @var $modelUpload \admin\models\forms\UploadImagesForm */
 /* @var array $categoriesTitles */
 
 $this->title = 'Update Product: ' . $model->title;

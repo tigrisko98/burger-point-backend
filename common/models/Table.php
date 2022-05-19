@@ -2,8 +2,7 @@
 
 namespace common\models;
 
-use app\resources\Reservation;
-use Yii;
+use common\models\Reservation;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -73,17 +72,19 @@ class Table extends ActiveRecord
 
         foreach ($tableIds as $id) {
             $reservations = Reservation::find()
-                ->select(['table_id', 'reserved_from', 'reserved_to'])->where(['table_id' => $id])->asArray()->all();
+                ->select(['id', 'table_id', 'reserved_from', 'reserved_to'])->where(['table_id' => $id])->asArray()->all();
 
             if (!empty($reservations)) {
                 foreach ($reservations as $reservation) {
-                    if (in_array($reservation['table_id'], $enabledTablesIds)) {
-                        continue;
-                    }
                     if ($reservedFrom != $reservation['reserved_from']
                         && (($reservedFrom < $reservation['reserved_from'] && $reservedTo <= $reservation['reserved_from'])
                             || $reservedFrom >= $reservation['reserved_to'] && $reservedTo > $reservation['reserved_to'])) {
-                        $enabledTablesIds[] = $reservation['table_id'];
+                        if (!in_array($reservation['table_id'], $enabledTablesIds)) {
+                            $enabledTablesIds[] = $reservation['table_id'];
+                        }
+                    } else {
+                        unset($enabledTablesIds[$reservation['table_id'] - 1]);
+                        break;
                     }
                 }
             } else {
@@ -91,6 +92,6 @@ class Table extends ActiveRecord
             }
         }
 
-        return $enabledTablesIds;
+        return array_values($enabledTablesIds);
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace app\models\forms;
+namespace common\models\forms;
 
-use app\resources\Reservation;
+use common\models\Reservation;
 use common\models\Table;
 use yii\base\Model;
 
 class CreateReservationForm extends Model
 {
-    use \app\components\ValidateDateTrait;
+    use \common\components\ValidateDateTrait;
 
     public $table_id;
     public $reserved_from;
@@ -22,17 +22,27 @@ class CreateReservationForm extends Model
     {
         return [
             [['table_id', 'reserved_from', 'reserved_to', 'reserver_name', 'reserver_phone_number', 'visitors_count'], 'required'],
+            ['visitors_count', 'validateVisitorsCount'],
+            ['table_id', 'validateTable'],
             ['reserved_from', 'compare', 'compareAttribute' => 'reserved_to', 'operator' => '<', 'enableClientValidation' => false],
             [['reserved_from', 'reserved_to'], 'validateDate'],
             [['reserver_email'], 'email'],
-            ['table_id', 'validateTable']
         ];
     }
 
     public function validateTable($attribute)
     {
         if (!in_array($this->table_id, Table::enabledTables($this->reserved_from, $this->reserved_to, $this->visitors_count))) {
-            $this->addError($attribute,'Table is already reserved.');
+            $this->addError($attribute, 'You cannot reserve this table');
+        }
+    }
+
+    public function validateVisitorsCount($attribute)
+    {
+        $seats = Table::findOne(['id' => $this->table_id])->seats;
+
+        if ($this->visitors_count > $seats) {
+            $this->addError($attribute, "Visitors count should be equal or less than $seats");
         }
     }
 

@@ -2,10 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\forms\CreateReservationForm;
+use common\models\forms\CreateReservationForm;
 use app\models\forms\EnabledTablesForm;
-use app\resources\Reservation;
-use common\models\Table;
+use common\models\Reservation;
 use yii\rest\ActiveController;
 
 class ReservationController extends ActiveController
@@ -31,7 +30,7 @@ class ReservationController extends ActiveController
             }
         }
 
-        return $this->response->data = ['type' => 'error', 'message' => 'You cannot reserve this table'];
+        return $this->response->data = ['type' => 'error', 'message' => $model->getErrors()];
     }
 
     public function actionEnabledTables()

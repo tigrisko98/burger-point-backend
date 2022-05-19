@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class EnabledTablesForm extends Model
 {
-    use \app\components\ValidateDateTrait;
+    use \common\components\ValidateDateTrait;
 
     public $reserved_from;
     public $reserved_to;

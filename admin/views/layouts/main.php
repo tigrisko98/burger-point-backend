@@ -41,6 +41,8 @@ AppAsset::register($this);
         } else {
             $menuItems[] = ['label' => 'Categories', 'url' => ['/categories']];
             $menuItems[] = ['label' => 'Products', 'url' => ['/products']];
+            $menuItems[] = ['label' => 'Tables', 'url' => ['/tables']];
+            $menuItems[] = ['label' => 'Reservations', 'url' => ['/reservations']];
             $menuItems[] = ['label' => 'Settings', 'url' => ['/settings']];
             $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])

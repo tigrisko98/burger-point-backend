@@ -50,7 +50,6 @@ class Reservation extends \yii\db\ActiveRecord
             [['table_id', 'reserved_from', 'reserved_to', 'reserver_name', 'reserver_phone_number', 'visitors_count'], 'required'],
             [['table_id', 'reserver_phone_number', 'visitors_count'], 'integer'],
             [['reserved_from', 'reserved_to'], 'string'],
-            ['visitors_count', 'compare', 'compareValue' => Table::find()->select('seats')->where(['id' => $this->table_id])->column()[0], 'operator' => '<='],
             [['reserver_name'], 'string', 'max' => 255],
             [['reserver_email'], 'email'],
             [['table_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['table_id' => 'id']],

@@ -49,6 +49,8 @@ return [
 
                 '/tables' => '/table/index',
 
+                '/reservations' => '/reservation/index',
+
                 '/settings' => '/settings/index',
                 '/settings/restaurant-images' => '/settings/restaurant-images',
                 '/settings/about-us-images' => '/settings/about-us-images',
