@@ -25,6 +25,18 @@ class Reservation extends \yii\db\ActiveRecord
 {
     use \admin\components\timestamp\UnixTimestampToDateTrait;
 
+    public function afterFind()
+    {
+        $this->created_at = date('d.m.Y H:i:s', $this->created_at);
+        $this->updated_at = date('d.m.Y H:i:s', $this->updated_at);
+
+        if ($this->is_active == 1) {
+            $this->is_active = 'Yes';
+        } else {
+            $this->is_active = 'No';
+        }
+    }
+
     /**
      * {@inheritdoc}
      */

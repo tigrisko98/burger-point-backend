@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $tableIds array */
 
+$isActiveArray = ['No', 'Yes'];
 ?>
 
 <div class="reservation-form">
@@ -28,7 +29,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'visitors_count')->textInput(['disabled' => 'disabled']) ?>
 
-    <?= $form->field($model, 'is_active')->dropDownList([0, 1]) ?>
+    <?= $form->field($model, 'is_active')->dropDownList($isActiveArray, ['options' =>
+        [array_search($model->is_active, $isActiveArray) => ['selected' => true]]]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
