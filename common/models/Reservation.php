@@ -16,13 +16,15 @@ use yii\behaviors\TimestampBehavior;
  * @property int $reserver_phone_number
  * @property string|null $reserver_email
  * @property int $visitors_count
+ * @property boolean $is_active
  * @property int $created_at
  * @property int $updated_at
- *
  * @property Table $table
  */
 class Reservation extends \yii\db\ActiveRecord
 {
+    use \admin\components\timestamp\UnixTimestampToDateTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -53,6 +55,8 @@ class Reservation extends \yii\db\ActiveRecord
             [['reserver_name'], 'string', 'max' => 255],
             [['reserver_email'], 'email'],
             [['table_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['table_id' => 'id']],
+            [['is_active'], 'required'],
+            [['is_active'], 'boolean'],
         ];
     }
 
@@ -69,6 +73,8 @@ class Reservation extends \yii\db\ActiveRecord
             'reserver_name' => 'Reserver Name',
             'reserver_phone_number' => 'Reserver Phone Number',
             'reserver_email' => 'Reserver Email',
+            'visitors_count' => 'Visitors Count',
+            'is_active' => 'Is Active',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

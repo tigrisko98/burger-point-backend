@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Reservation', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
+    <?php $is_active = "Yes";?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -31,11 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'reserved_from',
             'reserved_to',
             'reserver_name',
-            //'reserver_phone_number',
-            //'reserver_email:email',
-            //'visitors_count',
-            //'created_at',
-            //'updated_at',
+            'visitors_count',
+            'is_active',
+            'created_at',
+            'updated_at',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Reservation $model, $key, $index, $column) {

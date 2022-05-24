@@ -72,7 +72,8 @@ class Table extends ActiveRecord
 
         foreach ($tableIds as $id) {
             $reservations = Reservation::find()
-                ->select(['id', 'table_id', 'reserved_from', 'reserved_to'])->where(['table_id' => $id])->asArray()->all();
+                ->select(['id', 'table_id', 'reserved_from', 'reserved_to'])->where(['table_id' => $id, 'is_active' => 1])
+                ->asArray()->all();
 
             if (!empty($reservations)) {
                 foreach ($reservations as $reservation) {

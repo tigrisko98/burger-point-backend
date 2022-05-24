@@ -26,7 +26,7 @@ class CreateReservationForm extends Model
             ['table_id', 'validateTable'],
             ['reserved_from', 'compare', 'compareAttribute' => 'reserved_to', 'operator' => '<', 'enableClientValidation' => false],
             [['reserved_from', 'reserved_to'], 'validateDate'],
-            [['reserver_email'], 'email'],
+            [['reserver_email'], 'email']
         ];
     }
 
@@ -60,7 +60,8 @@ class CreateReservationForm extends Model
         $reservation->reserver_phone_number = $this->reserver_phone_number;
         $reservation->reserver_email = $this->reserver_email;
         $reservation->visitors_count = $this->visitors_count;
-        $reservation->save();
+        $reservation->is_active = 1;
+       $reservation->save();
 
         return $reservation;
     }

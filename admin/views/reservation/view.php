@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'reserver_phone_number',
             'reserver_email:email',
             'visitors_count',
+            'is_active',
             'created_at',
             'updated_at',
         ],
