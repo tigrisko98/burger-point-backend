@@ -19,6 +19,6 @@ class ReservationsController extends Controller
             $reservation->save();
         }
 
-        return $this->stdout("Success");
+        return $this->stdout("Success" . "\r\n");
     }
 }

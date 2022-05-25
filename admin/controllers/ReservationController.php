@@ -90,8 +90,8 @@ class ReservationController extends Controller
 
         if ($this->request->isPost) {
             $model->load($this->request->post());
-            if ($model->load($this->request->post()) && $id = $model->reserve()->attributes['id']) {
-                return $this->redirect(['view', 'id' => $id]);
+            if ($model->load($this->request->post()) && $id = $model->reserve()) {
+                return $this->redirect(['view', 'id' => $id->attributes['id']]);
             }
         } else {
             (new Reservation)->loadDefaultValues();

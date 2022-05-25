@@ -61,7 +61,7 @@ class CreateReservationForm extends Model
         $reservation->reserver_email = $this->reserver_email;
         $reservation->visitors_count = $this->visitors_count;
         $reservation->is_active = 1;
-       $reservation->save();
+        $reservation->save();
 
         return $reservation;
     }
